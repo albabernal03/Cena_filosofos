@@ -32,7 +32,7 @@ class CenaFilosofos:
             self.dibujar_tenedor(i)
         self.contadores = []
 
-        texto_explicativo= 'Rosa: Hambriento\nAmarillo: Comiendo\nAzul: Pensando'
+        texto_explicativo= 'Rosa: Hambriento\nAmarillo: Comiendo\nAzul: Pensando\nAzul oscuro: Tenedor en uso\nGris: Tenedor libre'
         texto_explicativo= tk.Label(self.ventana, text=texto_explicativo, bg='white')
         texto_explicativo.pack()
     
