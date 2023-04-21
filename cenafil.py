@@ -28,6 +28,9 @@ class CenaFilosofos:
             self.tenedores.append(tenedor_der)
             self.dibujar_filosofo(i, "Pensando", 'white')
             self.dibujar_tenedor(i)
+            tenedor_der.color(self.canvas)
+            tenedor_izq.color(self.canvas)
+
         self.contadores = []
 
         texto_explicativo= 'Rosa: Hambriento\nAmarillo: Comiendo\nAzul: Pensando'
@@ -51,6 +54,8 @@ class CenaFilosofos:
         x, y = POSICIONES_TENEDORES[id]
         color = self.tenedores[id].color()
         self.canvas.create_rectangle(x-10, y-10, x+10, y+10, fill=color)
+        if self.tenedores_rects[id] is None:
+            self.tenedores_rects[id] = self.canvas.create_rectangle(x-10, y-10, x+10, y+10, fill=color)
 
     def actualizar_filosofo(self, id, estado, color):
         self.canvas.delete("filosofo"+str(id))

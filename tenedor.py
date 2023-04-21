@@ -1,10 +1,11 @@
 import threading
 
 class Tenedor:
-    def __init__(self, id):
+    def __init__(self, id,canvas):
         self.id = id #esto nos 
         self.tenedor = threading.Lock()
         self.en_uso= False
+        self.canvas= canvas
 
     def tomar(self, filosofo, tenedor):
         if self.tenedor.acquire(blocking=False):
@@ -21,5 +22,11 @@ class Tenedor:
 
     def color(self):
         if self.en_uso:
-            return 'blue'
-        return 'grey'
+            self.canvas.itemconfig(self.id, fill='blue')
+        else:
+            self.canvas.itemconfig(self.id, fill='grey')
+
+    def cambiar_estado(self):
+        self.en_uso = not self.en_uso
+        self.canvas.itemconfig(self.dibujo, fill=self.color())
+        self.canvas.update()
