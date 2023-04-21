@@ -106,8 +106,8 @@ class CenaFilosofos:
         self.canvas.create_text(x, y, text="Filósofo " + str(id+1) + "\n" + estado)
 
     def dibujar_tenedor(self, id):
-        x, y = POSICIONES_TENEDORES[id-1]
-        color = self.tenedores[id-1].color()
+        x, y = POSICIONES_TENEDORES[id]
+        color = self.tenedores[id].color()
         self.canvas.create_rectangle(x-10, y-10, x+10, y+10, fill=color)
         
 
