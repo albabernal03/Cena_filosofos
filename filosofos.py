@@ -104,3 +104,6 @@ class CenaFilosofos:
 if __name__ == "__main__":
     cena = CenaFilosofos()
     cena.iniciar_cena()
+
+
+#TODO: MEJORAR CODIGO

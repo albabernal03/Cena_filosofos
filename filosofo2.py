@@ -2,6 +2,7 @@ import pygame
 import threading
 import time
 import random
+import math 
 
 # Definimos los colores para representar el estado de los filósofos
 COLORS = {
