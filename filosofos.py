@@ -5,8 +5,9 @@ import tkinter as tk
 
 
 # Constantes para posiciones de los filósofos y los tenedores
-POSICIONES_FILOSOFOS = [(300, 100), (450, 250), (450, 450), (300, 600), (100, 450), (100, 250)]
-POSICIONES_TENEDORES = [(250, 150), (400, 300), (450, 500), (300, 550), (150, 400), (100, 200)]
+POSICIONES_FILOSOFOS = [(300, 50), (500, 200), (500, 400), (300, 550), (100, 400), (100, 200)]
+POSICIONES_TENEDORES = [(275, 100), (475, 250), (525, 450), (325, 550), (125, 450), (75, 250)]
+
 
 class Tenedor:
     def __init__(self, id):
@@ -65,7 +66,7 @@ class CenaFilosofos:
     def __init__(self):
         self.ventana = tk.Tk()
         self.ventana.title("Cena de los Filósofos")
-        self.canvas = tk.Canvas(self.ventana, width=600, height=700, bg='white')
+        self.canvas = tk.Canvas(self.ventana, width=700, height= 700, bg='white')
         self.canvas.pack()
         self.filosofos = []
         self.tenedores = []
@@ -79,17 +80,22 @@ class CenaFilosofos:
             self.dibujar_filosofo(i, "Pensando", 'white')
             self.dibujar_tenedor(i)
         self.contadores = []
+
         texto_explicativo= 'Rosa: Hambriento\nAmarillo: Comiendo\nBlanco: Pensando'
         texto_explicativo= tk.Label(self.ventana, text=texto_explicativo, bg='white')
         texto_explicativo.pack()
+    
+
         for i in range(6):
             contador = tk.Label(self.ventana, text="Filósofo " + str(i) + ": 0", bg='white')
-            contador.place(x=520, y=100 + i * 75)
+            #ponemos el contador a la derecha de la ventana centrado
+            contador.place(x=600, y=50+50*i)
             self.contadores.append(contador)
+        
 
     def dibujar_filosofo(self, id, estado, color):
         x, y = POSICIONES_FILOSOFOS[id]
-        self.canvas.create_oval(x-25, y-25, x+25, y+25, fill=color, outline='black')
+        self.canvas.create_oval(x-40, y-40, x+40, y+40, fill=color, outline='black')
         self.canvas.create_text(x, y, text="Filósofo " + str(id) + "\n" + estado)
 
     def dibujar_tenedor(self, id):
