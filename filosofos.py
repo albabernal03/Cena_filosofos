@@ -75,6 +75,9 @@ class CenaFilosofos:
             self.dibujar_filosofo(i, "Pensando", ROJO)
             self.dibujar_tenedor(i)
         self.contadores = []
+        texto_explicativo= 'Rojo: Hambriento\nAmarillo: Comiendo\nBlanco: Pensando'
+        texto_explicativo= tk.Label(self.ventana, text=texto_explicativo, bg='white')
+        texto_explicativo.pack()
         for i in range(6):
             contador = tk.Label(self.ventana, text="Filósofo " + str(i) + ": 0", bg=BLANCO)
             contador.place(x=520, y=100 + i * 75)
