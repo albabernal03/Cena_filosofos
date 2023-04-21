@@ -15,7 +15,12 @@ class Tenedor: #tenemos tanto el de la derecha como el de la izquierda y se nece
         self.tenedor = threading.Lock() #creamos un lock para que no se pueda acceder a la vez a los tenedores 
 
     def tomar(self, filosofo, tenedor): #metodo para tomar el tenedor
-        
+        if self.tenedor.acquire(blocking=False): #si el tenedor se puede adquirir, es decir, si no está ocupado
+            print("Filósofo", filosofo, "tomó tenedor", tenedor) #imprimimos que el filosofo ha tomado el tenedor
+            return True #devolvemos true
+        return False #si no se puede adquirir el tenedor, devolvemos false
+    
+
 
 
 
