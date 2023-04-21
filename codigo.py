@@ -40,6 +40,23 @@ class Filosofo(threading.Thread): #creamos la clase filosofo
             tenedor_izq_tomado = self.tenedor_izq.tomar(self.id, "izquierdo") #tomamos el tenedor izquierdo
             tenedor_der_tomado = self.tenedor_der.tomar(self.id, "derecho") #tomamos el tenedor derecho
             if tenedor_izq_tomado and tenedor_der_tomado: #si se han tomado ambos tenedores
+                self.cena.actualizar_filosofo(self.id, "Comiendo", 'yellow') #actualizamos el estado del filosofo a comiendo
+                time.sleep(random.randint(1, 5)) #tiempo aleatorio entre 1 y 5
+                self.tenedor_izq.liberar(self.id, "izquierdo") #liberamos el tenedor izquierdo
+                self.tenedor_der.liberar(self.id, "derecho") #liberamos el tenedor derecho
+                self.comidas += 1 #aumentamos el numero de comidas
+                self.cena.actualizar_filosofo(self.id, "Pensando", 'white') #actualizamos el estado del filosofo a pensando
+            else:
+                if tenedor_der_tomado:
+                    self.tenedor_der.liberar(self.id, "derecho")
+                if tenedor_izq_tomado:
+                    self.tenedor_izq.liberar(self.id, "izquierdo")
+
+                    
+            
+
+            
+
 
     
 
