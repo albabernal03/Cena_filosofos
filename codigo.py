@@ -23,7 +23,23 @@ class Tenedor: #tenemos tanto el de la derecha como el de la izquierda y se nece
     def liberar(self, filosofo, tenedor):
         self.tenedor.release()
         print("Filósofo", filosofo, "liberó tenedor", tenedor)
-        
+
+class Filosofo(threading.Thread): #creamos la clase filosofo
+    def __init__(self, id, tenedor_izq, tenedor_der, cena): #le pasamos el id, el tenedor izquierdo, el tenedor derecho y la cena
+        threading.Thread.__init__(self) #inicializamos el hilo
+        self.id = id #le pasamos el id del filosofo
+        self.tenedor_izq = tenedor_izq #le pasamos el tenedor izquierdo
+        self.tenedor_der = tenedor_der #le pasamos el tenedor derecho
+        self.cena = cena #le pasamos la cena
+        self.comidas = 0 #inicializamos el numero de comidas a 0
+
+    def run(self): #metodo run
+        while True: #bucle infinito
+            time.sleep(random.randint(1, 5)) #tiempo aleatorio entre 1 y 5
+            self.cena.actualizar_filosofo(self.id, "Hambriento", 'red') #actualizamos el estado del filosofo a hambriento
+            tenedor_izq_tomado = self.tenedor_izq.tomar(self.id, "izquierdo") #tomamos el tenedor izquierdo
+            tenedor_der_tomado = self.tenedor_der.tomar(self.id, "derecho") #tomamos el tenedor derecho
+            if tenedor_izq_tomado and tenedor_der_tomado: #si se han tomado ambos tenedores
 
     
 
