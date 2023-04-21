@@ -12,6 +12,7 @@ class Tenedor:
     def __init__(self, id):
         self.id = id #esto nos 
         self.tenedor = threading.Lock()
+        self.en_uso= False
 
     def tomar(self, filosofo, tenedor):
         if self.tenedor.acquire(blocking=False):
