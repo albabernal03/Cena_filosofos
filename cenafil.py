@@ -19,15 +19,15 @@ class CenaFilosofos:
         self.canvas.pack()
         self.filosofos = []
         self.tenedores = []
-        for i in range(1,6):
-            tenedor_izq = Tenedor(i-1,self)
-            tenedor_der = Tenedor(i % 5,self)
+        for i in range(5):
+            tenedor_izq = Tenedor(i,self)
+            tenedor_der = Tenedor((i+1) % 5,self)
             filosofo = Filosofo(i, tenedor_izq, tenedor_der, self)
             self.filosofos.append(filosofo)
             self.tenedores.append(tenedor_izq)
             self.tenedores.append(tenedor_der)
             self.dibujar_filosofo(i, "Pensando", 'white')
-            self.dibujar_tenedor(i-1)
+            self.dibujar_tenedor(i)
             
         self.contadores = []
 
