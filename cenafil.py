@@ -7,8 +7,11 @@ from math import sin, cos, pi
 from filosofo import Filosofo
 
 # Constantes para posiciones de los filósofos y los tenedores
-POSICIONES_FILOSOFOS = [(int(300 + 200*cos(2*pi/5*i)), int(300 + 200*sin(2*pi/5*i))) for i in range(6)]
-POSICIONES_TENEDORES = [(int(275 + 200*cos(2*pi/5*i+pi/5)), int(275 + 200*sin(2*pi/5*i+pi/5))) for i in range(6)]
+POSICIONES_FILOSOFOS = [(int(300 + 200*cos(2*pi/5*i)), int(300 + 200*sin(2*pi/5*i))) for i in range(5)]
+POSICIONES_TENEDORES = [(int(275 + 200*cos(2*pi/5*i+pi/5)), int(275 + 200*sin(2*pi/5*i+pi/5))) for i in range(5)]
+
+
+
 
 class CenaFilosofos:
     def __init__(self):
@@ -18,16 +21,15 @@ class CenaFilosofos:
         self.canvas.pack()
         self.filosofos = []
         self.tenedores = []
-        for i in range(1,6):
-            tenedor_izq = Tenedor(i-1,self)
-            tenedor_der = Tenedor(i  % 5,self)
+        for i in range(5):
+            tenedor_izq = Tenedor(i,self)
+            tenedor_der = Tenedor((i + 1) % 5,self)
             filosofo = Filosofo(i, tenedor_izq, tenedor_der, self)
             self.filosofos.append(filosofo)
             self.tenedores.append(tenedor_izq)
             self.tenedores.append(tenedor_der)
-            self.dibujar_filosofo(i-1, "Pensando", 'white')
-            self.dibujar_tenedor(i-1)
-            
+            self.dibujar_filosofo(i, "Pensando", 'white')
+            self.dibujar_tenedor(i)
         self.contadores = []
 
         texto_explicativo= 'Rosa: Hambriento\nAmarillo: Comiendo\nAzul: Pensando'
@@ -43,7 +45,7 @@ class CenaFilosofos:
         
 
     def dibujar_filosofo(self, id, estado, color):
-        x, y = POSICIONES_FILOSOFOS[id+1]
+        x, y = POSICIONES_FILOSOFOS[id]
         self.canvas.create_oval(x-40, y-40, x+40, y+40, fill=color, outline='black')
         self.canvas.create_text(x, y, text="Filósofo " + str(id+1) + "\n" + estado)
 
@@ -51,7 +53,6 @@ class CenaFilosofos:
         x, y = POSICIONES_TENEDORES[id]
         color = self.tenedores[id].color()
         self.canvas.create_rectangle(x-10, y-10, x+10, y+10, fill=color)
-        
 
     def actualizar_filosofo(self, id, estado, color):
         self.canvas.delete("filosofo"+str(id))
@@ -64,3 +65,7 @@ class CenaFilosofos:
         for filosofo in self.filosofos:
             filosofo.start()
         self.ventana.mainloop()
+
+if __name__ == "__main__":
+    cena = CenaFilosofos()
+    cena.iniciar_cena()

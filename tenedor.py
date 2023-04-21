@@ -7,7 +7,6 @@ class Tenedor:
         self.tenedor = threading.Lock()
         self.en_uso= False
         self.cena = cena
-      
 
     def tomar(self, filosofo, tenedor):
         if self.tenedor.acquire(blocking=False):
@@ -20,13 +19,12 @@ class Tenedor:
     def liberar(self, filosofo, tenedor):
         self.tenedor.release()
         self.en_uso= False
-        print("Filósofo", filosofo, "liberó tenedor", tenedor)
         self.cena.dibujar_tenedor(self.id)
+        print("Filósofo", filosofo, "liberó tenedor", tenedor)
         
 
     def color(self):
         if self.en_uso:
             return 'blue'
-        else:
-            return 'grey'
+        return 'grey'
 
