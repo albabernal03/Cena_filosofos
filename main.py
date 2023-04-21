@@ -1,5 +1,5 @@
 from cenafil import *
 
-def iniciat():
+def iniciar():
     cena = CenaFilosofos()
     cena.iniciar_cena()
