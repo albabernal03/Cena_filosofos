@@ -2,11 +2,13 @@ import threading
 import time
 import random
 import tkinter as tk
+from math import sin, cos, pi
 
 
 # Constantes para posiciones de los filósofos y los tenedores
-POSICIONES_FILOSOFOS = [(300, 50), (500, 200), (500, 400), (300, 550), (100, 400), (100, 200)]
-POSICIONES_TENEDORES = [(275, 100), (475, 250), (525, 450), (325, 550), (125, 450), (75, 250)]
+POSICIONES_FILOSOFOS = [(int(300 + 200*cos(2*pi/5*i)), int(300 + 200*sin(2*pi/5*i))) for i in range(5)]
+POSICIONES_TENEDORES = [(int(275 + 200*cos(2*pi/5*i+pi/5)), int(275 + 200*sin(2*pi/5*i+pi/5))) for i in range(5)]
+
 
 
 class Tenedor:
@@ -55,7 +57,7 @@ class Filosofo(threading.Thread):
                 time.sleep(random.randint(1, 5))
                 self.tenedor_der.liberar(self.id, "derecho")
                 self.tenedor_izq.liberar(self.id, "izquierdo")
-                self.cena.actualizar_filosofo(self.id, "Pensando", 'white')
+                self.cena.actualizar_filosofo(self.id, "Pensando", 'light blue')
             else:
                 if tenedor_izq_tomado:
                     self.tenedor_izq.liberar(self.id, "izquierdo")
@@ -70,9 +72,9 @@ class CenaFilosofos:
         self.canvas.pack()
         self.filosofos = []
         self.tenedores = []
-        for i in range(6):
+        for i in range(5):
             tenedor_izq = Tenedor(i)
-            tenedor_der = Tenedor((i + 1) % 6)
+            tenedor_der = Tenedor((i + 1) % 5)
             filosofo = Filosofo(i, tenedor_izq, tenedor_der, self)
             self.filosofos.append(filosofo)
             self.tenedores.append(tenedor_izq)
@@ -81,12 +83,12 @@ class CenaFilosofos:
             self.dibujar_tenedor(i)
         self.contadores = []
 
-        texto_explicativo= 'Rosa: Hambriento\nAmarillo: Comiendo\nBlanco: Pensando'
+        texto_explicativo= 'Rosa: Hambriento\nAmarillo: Comiendo\nAzul: Pensando'
         texto_explicativo= tk.Label(self.ventana, text=texto_explicativo, bg='white')
         texto_explicativo.pack()
     
 
-        for i in range(6):
+        for i in range(5):
             contador = tk.Label(self.ventana, text="Filósofo " + str(i) + ": 0", bg='white')
             #ponemos el contador a la derecha de la ventana centrado
             contador.place(x=600, y=50+50*i)
