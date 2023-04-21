@@ -16,7 +16,7 @@ POSICIONES_TENEDORES = [(250, 150), (400, 300), (450, 500), (300, 550), (150, 40
 
 class Tenedor:
     def __init__(self, id):
-        self.id = id
+        self.id = id #esto nos 
         self.tenedor = threading.Lock()
 
     def tomar(self, filosofo, tenedor):
