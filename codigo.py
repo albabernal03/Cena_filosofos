@@ -20,6 +20,12 @@ class Tenedor: #tenemos tanto el de la derecha como el de la izquierda y se nece
             return True #devolvemos true
         return False #si no se puede adquirir el tenedor, devolvemos false
     
+    def liberar(self, filosofo, tenedor):
+        self.tenedor.release()
+        print("Filósofo", filosofo, "liberó tenedor", tenedor)
+        
+
+    
 
 
 
