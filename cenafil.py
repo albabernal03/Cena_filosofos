@@ -28,9 +28,7 @@ class CenaFilosofos:
             self.tenedores.append(tenedor_der)
             self.dibujar_filosofo(i, "Pensando", 'white')
             self.dibujar_tenedor(i)
-            tenedor_der.color(self.canvas)
-            tenedor_izq.color(self.canvas)
-
+            
         self.contadores = []
 
         texto_explicativo= 'Rosa: Hambriento\nAmarillo: Comiendo\nAzul: Pensando'
