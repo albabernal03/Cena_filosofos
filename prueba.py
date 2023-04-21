@@ -38,6 +38,38 @@ class Filosofo(threading.Thread):
                     self.tenedor_der.liberar(self.id, "derecho")
 
 
+
+class Tenedor:
+    def __init__(self, id,cena):
+        self.id = id #esto nos 
+        self.tenedor = threading.Lock()
+        self.en_uso= False
+        self.cena = cena
+      
+
+    def tomar(self, filosofo, tenedor):
+        if self.tenedor.acquire(blocking=False):
+            print("Filósofo", filosofo, "tomó tenedor", tenedor)
+            self.en_uso= True
+            self.cena.dibujar_tenedor(self.id)
+            return True
+        return False
+
+    def liberar(self, filosofo, tenedor):
+        self.tenedor.release()
+        self.en_uso= False
+        print("Filósofo", filosofo, "liberó tenedor", tenedor)
+        self.cena.dibujar_tenedor(self.id)
+        
+
+    def color(self):
+        if self.en_uso:
+            return 'blue'
+        else:
+            return 'grey'
+
+
+
 class CenaFilosofos:
     def __init__(self):
         self.ventana = tk.Tk()
@@ -47,17 +79,15 @@ class CenaFilosofos:
         self.filosofos = []
         self.tenedores = []
         for i in range(5):
-            tenedor_izq = Tenedor(i, self.canvas)
-            tenedor_der = Tenedor((i + 1) % 5, self.canvas)
+            tenedor_izq = Tenedor(i,self)
+            tenedor_der = Tenedor((i + 1) % 5,self)
             filosofo = Filosofo(i, tenedor_izq, tenedor_der, self)
             self.filosofos.append(filosofo)
             self.tenedores.append(tenedor_izq)
             self.tenedores.append(tenedor_der)
             self.dibujar_filosofo(i, "Pensando", 'white')
             self.dibujar_tenedor(i)
-            tenedor_der.color(self.canvas)
-            tenedor_izq.color(self.canvas)
-
+            
         self.contadores = []
 
         texto_explicativo= 'Rosa: Hambriento\nAmarillo: Comiendo\nAzul: Pensando'
@@ -82,6 +112,7 @@ class CenaFilosofos:
         color = self.tenedores[id].color()
         self.canvas.create_rectangle(x-10, y-10, x+10, y+10, fill=color)
         
+
     def actualizar_filosofo(self, id, estado, color):
         self.canvas.delete("filosofo"+str(id))
         self.dibujar_filosofo(id, estado, color)
@@ -93,38 +124,6 @@ class CenaFilosofos:
         for filosofo in self.filosofos:
             filosofo.start()
         self.ventana.mainloop()
-
-class Tenedor:
-    def __init__(self, id,canvas):
-        self.id = id #esto nos 
-        self.tenedor = threading.Lock()
-        self.en_uso= False
-        self.canvas= canvas
-
-    def tomar(self, filosofo, tenedor):
-        if self.tenedor.acquire(blocking=False):
-            print("Filósofo", filosofo, "tomó tenedor", tenedor)
-            self.en_uso= True
-            return True
-        return False
-
-    def liberar(self, filosofo, tenedor):
-        self.tenedor.release()
-        self.en_uso= False
-        print("Filósofo", filosofo, "liberó tenedor", tenedor)
-        
-
-    def color(self):
-        if self.en_uso:
-            self.canvas.itemconfig(self.id, fill='blue')
-        else:
-            self.canvas.itemconfig(self.id, fill='grey')
-
-    def cambiar_estado(self):
-        self.en_uso = not self.en_uso
-        self.canvas.itemconfig(self.dibujo, fill=self.color())
-        self.canvas.update()
-
 
 
 if __name__ == "__main__":

@@ -20,8 +20,8 @@ class CenaFilosofos:
         self.filosofos = []
         self.tenedores = []
         for i in range(5):
-            tenedor_izq = Tenedor(i)
-            tenedor_der = Tenedor((i + 1) % 5)
+            tenedor_izq = Tenedor(i,self)
+            tenedor_der = Tenedor((i + 1) % 5,self)
             filosofo = Filosofo(i, tenedor_izq, tenedor_der, self)
             self.filosofos.append(filosofo)
             self.tenedores.append(tenedor_izq)

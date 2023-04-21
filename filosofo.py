@@ -4,7 +4,6 @@ import random
 import tkinter as tk
 from math import sin, cos, pi
 
-
 class Filosofo(threading.Thread):
     def __init__(self, id, tenedor_izq, tenedor_der, cena):
         threading.Thread.__init__(self)
