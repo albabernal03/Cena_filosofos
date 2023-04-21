@@ -1,3 +1,4 @@
+import threading
 
 class Tenedor:
     def __init__(self, id):

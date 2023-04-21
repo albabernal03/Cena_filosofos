@@ -1,3 +1,15 @@
+import threading
+import time
+import random
+from tenedor import Tenedor
+import tkinter as tk
+from math import sin, cos, pi
+
+# Constantes para posiciones de los filósofos y los tenedores
+POSICIONES_FILOSOFOS = [(int(300 + 200*cos(2*pi/5*i)), int(300 + 200*sin(2*pi/5*i))) for i in range(5)]
+POSICIONES_TENEDORES = [(int(275 + 200*cos(2*pi/5*i+pi/5)), int(275 + 200*sin(2*pi/5*i+pi/5))) for i in range(5)]
+
+
 class Filosofo(threading.Thread):
     def __init__(self, id, tenedor_izq, tenedor_der, cena):
         threading.Thread.__init__(self)
