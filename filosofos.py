@@ -4,40 +4,8 @@ import threading
 import time
 import tkinter as tk
 
-class Filosofo():
-    def __init__(self, nombre, tenedorIzq, tenedorDer, ventana):
-        self.nombre = nombre
-        self.tenedorIzq = tenedorIzq
-        self.tenedorDer = tenedorDer
-        self.ventana = ventana
-        self.estado = "PENSANDO"
-        self.numComidas = 0
-        self.actualizar_ventana()
+#Definimos la posición de los filosofos
+posiciones = [(200, 50), (300, 150), (300, 250), (200, 350), (100, 250), (100, 150)]
+#Definimos la posición de los tenedores
+posiciones_tenedores = [(250, 100), (350, 200), (350, 300), (250, 400), (150, 300), (150, 200)]
 
-    def coger_tenedores(self):
-        tenedorIzq, tenedorDer = self.tenedorIzq, self.tenedorDer
-        while True:
-            tenedorIzq.acquire() #Adquiere el tenedor izquierdo
-            adq_tenedorIzq = tenedorIzq.locked() #Comprueba si el tenedor izquierdo esta bloqueado
-            tenedorDer.acquire() #Adquiere el tenedor derecho
-            adq_tenedorDer = tenedorDer.locked() #Comprueba si el tenedor derecho esta bloqueado
-            if adq_tenedorIzq and adq_tenedorDer: 
-                self.estado="COMIENDO"
-                self.numComidas += 1
-                self.actualizar_ventana()
-                break
-
-
-
-    def soltar_tenedores(self):
-        self.tenedorIzq.release()
-        self.tenedorDer.release()
-        self.estado="Terminó de comer"
-        self.actualizar_ventana()
-
-    def pensar(self):
-        self.estado="PENSANDO"
-        self.actualizar_ventana()
-        time.sleep(2)   #Tiempo que tarda en pensar
-
-  
