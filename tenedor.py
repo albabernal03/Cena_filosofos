@@ -29,3 +29,4 @@ class Tenedor:
             return 'blue'
         else:
             return 'grey'
+

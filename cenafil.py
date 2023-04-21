@@ -7,9 +7,8 @@ from math import sin, cos, pi
 from filosofo import Filosofo
 
 # Constantes para posiciones de los filósofos y los tenedores
-POSICIONES_FILOSOFOS = [(int(300 + 200*cos(2*pi/5*i)), int(300 + 200*sin(2*pi/5*i))) for i in range(5)]
-POSICIONES_TENEDORES = [(int(275 + 200*cos(2*pi/5*i+pi/5)), int(275 + 200*sin(2*pi/5*i+pi/5))) for i in range(5)]
-
+POSICIONES_FILOSOFOS = [(int(300 + 200*cos(2*pi/5*i)), int(300 + 200*sin(2*pi/5*i))) for i in range(6)]
+POSICIONES_TENEDORES = [(int(275 + 200*cos(2*pi/5*i+pi/5)), int(275 + 200*sin(2*pi/5*i+pi/5))) for i in range(6)]
 
 class CenaFilosofos:
     def __init__(self):
@@ -19,34 +18,34 @@ class CenaFilosofos:
         self.canvas.pack()
         self.filosofos = []
         self.tenedores = []
-        for i in range(5):
-            tenedor_izq = Tenedor(i,self)
-            tenedor_der = Tenedor((i+1) % 5,self)
+        for i in range(1,6):
+            tenedor_izq = Tenedor(i-1,self)
+            tenedor_der = Tenedor(i  % 5,self)
             filosofo = Filosofo(i, tenedor_izq, tenedor_der, self)
             self.filosofos.append(filosofo)
             self.tenedores.append(tenedor_izq)
             self.tenedores.append(tenedor_der)
-            self.dibujar_filosofo(i, "Pensando", 'white')
-            self.dibujar_tenedor(i)
+            self.dibujar_filosofo(i-1, "Pensando", 'white')
+            self.dibujar_tenedor(i-1)
             
         self.contadores = []
 
-        texto_explicativo= 'Rosa: Hambriento\nAmarillo: Comiendo\nAzul: Pensando\nAzul oscuro: Tendor en uso\nGris: Tenedor libre'
+        texto_explicativo= 'Rosa: Hambriento\nAmarillo: Comiendo\nAzul: Pensando'
         texto_explicativo= tk.Label(self.ventana, text=texto_explicativo, bg='white')
         texto_explicativo.pack()
     
 
         for i in range(5):
-            contador = tk.Label(self.ventana, text="Filósofo " + str(i) + ": 0", bg='white')
+            contador = tk.Label(self.ventana, text="Filósofo " + str(i+1) + ": 0", bg='white')
             #ponemos el contador a la derecha de la ventana centrado
             contador.place(x=600, y=50+50*i)
             self.contadores.append(contador)
         
 
     def dibujar_filosofo(self, id, estado, color):
-        x, y = POSICIONES_FILOSOFOS[id]
+        x, y = POSICIONES_FILOSOFOS[id+1]
         self.canvas.create_oval(x-40, y-40, x+40, y+40, fill=color, outline='black')
-        self.canvas.create_text(x, y, text="Filósofo " + str(id) + "\n" + estado)
+        self.canvas.create_text(x, y, text="Filósofo " + str(id+1) + "\n" + estado)
 
     def dibujar_tenedor(self, id):
         x, y = POSICIONES_TENEDORES[id]
