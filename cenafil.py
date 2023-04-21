@@ -59,7 +59,7 @@ class CenaFilosofos:
         self.dibujar_filosofo(id, estado, color)
 
     def actualizar_contador(self, id, comidas):
-        self.contadores[id].configure(text="Filósofo " + str(id) + ": " + str(comidas))
+        self.contadores[id].configure(text="Filósofo " + str(id+1) + ": " + str(comidas))
 
     def iniciar_cena(self):
         for filosofo in self.filosofos:
