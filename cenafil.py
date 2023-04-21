@@ -37,7 +37,7 @@ class CenaFilosofos:
     
 
         for i in range(5):
-            contador = tk.Label(self.ventana, text="Filósofo " + str(i+1) + ": 0", bg='white')
+            contador = tk.Label(self.ventana, text="Filósofo " + str(i) + ": 0", bg='white')
             #ponemos el contador a la derecha de la ventana centrado
             contador.place(x=600, y=50+50*i)
             self.contadores.append(contador)
