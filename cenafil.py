@@ -54,8 +54,7 @@ class CenaFilosofos:
         x, y = POSICIONES_TENEDORES[id]
         color = self.tenedores[id].color()
         self.canvas.create_rectangle(x-10, y-10, x+10, y+10, fill=color)
-        if self.tenedores_rects[id] is None:
-            self.tenedores_rects[id] = self.canvas.create_rectangle(x-10, y-10, x+10, y+10, fill=color)
+        
 
     def actualizar_filosofo(self, id, estado, color):
         self.canvas.delete("filosofo"+str(id))
