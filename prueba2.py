@@ -4,8 +4,39 @@ import random
 import tkinter as tk
 from math import sin, cos, pi
 
-POSICIONES_FILOSOFOS = [(int(300 + 200*cos(2*pi/5*i)), int(300 + 200*sin(2*pi/5*i))) for i in range(6)]
-POSICIONES_TENEDORES = [(int(275 + 200*cos(2*pi/5*i+pi/5)), int(275 + 200*sin(2*pi/5*i+pi/5))) for i in range(6)]
+
+# Constantes para posiciones de los filósofos y los tenedores
+POSICIONES_FILOSOFOS = [(int(300 + 200*cos(2*pi/5*i)), int(300 + 200*sin(2*pi/5*i))) for i in range(5)]
+POSICIONES_TENEDORES = [(int(275 + 200*cos(2*pi/5*i+pi/5)), int(275 + 200*sin(2*pi/5*i+pi/5))) for i in range(5)]
+
+
+class Tenedor:
+    def __init__(self, id,cena):
+        self.id = id #esto nos 
+        self.tenedor = threading.Lock()
+        self.en_uso= False
+        self.cena = cena
+
+    def tomar(self, filosofo, tenedor):
+        if self.tenedor.acquire(blocking=False):
+            print("Filósofo", filosofo, "tomó tenedor", tenedor)
+            self.en_uso= True
+            self.cena.dibujar_tenedor(self.id)
+            return True
+        return False
+
+    def liberar(self, filosofo, tenedor):
+        self.tenedor.release()
+        self.en_uso= False
+        self.cena.dibujar_tenedor(self.id)
+        print("Filósofo", filosofo, "liberó tenedor", tenedor)
+        
+
+    def color(self):
+        if self.en_uso:
+            return 'blue'
+        return 'grey'
+
 class Filosofo(threading.Thread):
     def __init__(self, id, tenedor_izq, tenedor_der, cena):
         threading.Thread.__init__(self)
@@ -35,39 +66,6 @@ class Filosofo(threading.Thread):
                 if tenedor_der_tomado:
                     self.tenedor_der.liberar(self.id, "derecho")
 
-
-
-class Tenedor:
-    def __init__(self, id,cena):
-        self.id = id #esto nos 
-        self.tenedor = threading.Lock()
-        self.en_uso= False
-        self.cena = cena
-
-
-    def tomar(self, filosofo, tenedor):
-        if self.tenedor.acquire(blocking=False):
-            print("Filósofo", filosofo, "tomó tenedor", tenedor)
-            self.en_uso= True
-            self.cena.dibujar_tenedor(self.id)
-            return True
-        return False
-
-    def liberar(self, filosofo, tenedor):
-        self.tenedor.release()
-        self.en_uso= False
-        print("Filósofo", filosofo, "liberó tenedor", tenedor)
-        self.cena.dibujar_tenedor(self.id)
-
-
-    def color(self):
-        if self.en_uso:
-            return 'blue'
-        else:
-            return 'grey'
-
-
-
 class CenaFilosofos:
     def __init__(self):
         self.ventana = tk.Tk()
@@ -76,32 +74,31 @@ class CenaFilosofos:
         self.canvas.pack()
         self.filosofos = []
         self.tenedores = []
-        for i in range(1,6):
-            tenedor_izq = Tenedor(i-1,self)
-            tenedor_der = Tenedor(i % 5,self)
+        for i in range(5):
+            tenedor_izq = Tenedor(i,self)
+            tenedor_der = Tenedor((i + 1) % 5,self)
             filosofo = Filosofo(i, tenedor_izq, tenedor_der, self)
             self.filosofos.append(filosofo)
             self.tenedores.append(tenedor_izq)
             self.tenedores.append(tenedor_der)
-            self.dibujar_filosofo(i-1, "Pensando", 'white')
-            self.dibujar_tenedor(i-1)
-
+            self.dibujar_filosofo(i, "Pensando", 'white')
+            self.dibujar_tenedor(i)
         self.contadores = []
 
         texto_explicativo= 'Rosa: Hambriento\nAmarillo: Comiendo\nAzul: Pensando'
         texto_explicativo= tk.Label(self.ventana, text=texto_explicativo, bg='white')
         texto_explicativo.pack()
-
+    
 
         for i in range(5):
             contador = tk.Label(self.ventana, text="Filósofo " + str(i+1) + ": 0", bg='white')
             #ponemos el contador a la derecha de la ventana centrado
             contador.place(x=600, y=50+50*i)
             self.contadores.append(contador)
-
+        
 
     def dibujar_filosofo(self, id, estado, color):
-        x, y = POSICIONES_FILOSOFOS[id+1]
+        x, y = POSICIONES_FILOSOFOS[id]
         self.canvas.create_oval(x-40, y-40, x+40, y+40, fill=color, outline='black')
         self.canvas.create_text(x, y, text="Filósofo " + str(id+1) + "\n" + estado)
 
@@ -110,19 +107,17 @@ class CenaFilosofos:
         color = self.tenedores[id].color()
         self.canvas.create_rectangle(x-10, y-10, x+10, y+10, fill=color)
 
-
     def actualizar_filosofo(self, id, estado, color):
-        self.canvas.delete("filosofo"+str(id+1))
+        self.canvas.delete("filosofo"+str(id))
         self.dibujar_filosofo(id, estado, color)
 
     def actualizar_contador(self, id, comidas):
-        self.contadores[id].configure(text="Filósofo " + str(id+1) + ": " + str(comidas))
+        self.contadores[id].configure(text="Filósofo " + str(id) + ": " + str(comidas))
 
     def iniciar_cena(self):
         for filosofo in self.filosofos:
             filosofo.start()
         self.ventana.mainloop()
-
 
 if __name__ == "__main__":
     cena = CenaFilosofos()
