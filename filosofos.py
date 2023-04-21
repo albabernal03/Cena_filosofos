@@ -26,3 +26,18 @@ class Filosofo():
                 self.numComidas += 1
                 self.actualizar_ventana()
                 break
+
+
+
+    def soltar_tenedores(self):
+        self.tenedorIzq.release()
+        self.tenedorDer.release()
+        self.estado="Terminó de comer"
+        self.actualizar_ventana()
+
+    def pensar(self):
+        self.estado="PENSANDO"
+        self.actualizar_ventana()
+        time.sleep(2)   #Tiempo que tarda en pensar
+
+  
