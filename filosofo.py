@@ -1,7 +1,3 @@
-import threading
-import time
-import random
-from tenedor import *
 
 class Filosofo(threading.Thread):
     def __init__(self, id, tenedor_izq, tenedor_der, cena):
